@@ -42,7 +42,6 @@ def intro():
 def main():
     intro()
 
-    # Variables
     done = False
     km_traveled = 0             # 100 km traveled is the goal
     agents_distance = -20.0
