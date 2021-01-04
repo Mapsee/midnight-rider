@@ -26,6 +26,7 @@ REACH THE END BEFORE THE MAN GO GETCHU.
 
 CHOICES = """
     ----
+    E. Status Check
     Q. QUIT
     ----
 """
@@ -41,7 +42,15 @@ def intro():
 def main():
     intro()
 
+    # Variables
     done = False
+    km_traveled = 0             # 100 km traveled is the goal
+    agents_distance = -20.0
+    turns = 0                   # amount of turns taken
+    tofu = 3                    # 3 is max tofu
+    fuel = 50                   # 50 is a full tank
+    hunger = 0                  # hunger increases with number
+
 
     while not done:
         # TODO: Check if reached END GAME
@@ -50,13 +59,24 @@ def main():
         print(CHOICES)
 
         # Handle user's input
-        users_choice = input("What do you want to do?" ).lower().strip("!,.? ")
-        if users_choice == "q":
+        users_choice = input("What do you want to do? ").lower().strip("!,.? ")
+
+        if users_choice == "e":
+            print(f"\t---Status Check---")
+            print(f"\tkm traveled: {km_traveled} kms")
+            print(f"\tFuel left: {fuel} Litres")
+            print(f"\tAgents are {abs(agents_distance)} kms behind you.")
+            print(f"\tYou have {tofu} tofu left.")
+            print("\t------\n")
+        elif users_choice == "q":
             done = True
+
+        # Pause
+        time.sleep(1)
 
         # TODO: Change the environment based on choice and RNG
 
-    #Outro
+    # Outro
     print("Thanks for playing! Please play again. :)")
 
 if __name__ == '__main__':
