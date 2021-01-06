@@ -73,6 +73,7 @@ def main():
     MAX_FUEL_LEVEL = 50
     MAX_TOFU_LEVEL = 3
     MAX_DISTANCE_TRAVELED = 100
+    TOFU_CHANCE = 0.03
 
     # Variables
     done = False
@@ -86,14 +87,34 @@ def main():
 
 
     while not done:
+        # TODO: Random events
+        # Fido
+        if random.random() < TOFU_CHANCE:
+            # Fido pops up says something and refills tofu
+            tofu = MAX_TOFU_LEVEL
+            print()
+            print("******** Your tofu is magically refilled ")
+            print("******** \"You're welcome!\" a voice says.")
+            print("******** It's Fido.")
+            print("******** He's using his tofu cooking skills. ")
+        # Showing hunger
+        if hunger > 35:
+            print("******** Your stomach rumbles. You need to eat something soon. ********")
+        elif hunger > 20:
+            print("******** Your hunger is small but manageable.")
+
         # Check if reached END GAME
         if km_traveled > MAX_DISTANCE_TRAVELED:
             # WIN
             # Print win scenario (typing way)
             time.sleep(3.5)
             type_text_output(WIN)
+            break
 
-            # Break from while loop
+        elif hunger > 45:
+
+            # LOSE - TOO HUNGRY
+            # Print losing hunger scenario
             break
 
         # TODO: Give the player their choices
