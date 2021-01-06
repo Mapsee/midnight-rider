@@ -24,10 +24,33 @@ REACH THE END BEFORE THE MAN GO GETCHU.
 
 """
 
+WIN = """
+
+You pressed the button to open the gate. 
+This isn't the first time you've done this,
+so you know how to time it exactly. 
+Just as the doors close, you slide right into HQ.
+You know you did the right thing, the government would have just torn the car apart. 
+They don't know its secrets...
+that it holds the key to different worlds. 
+As you step out of the vehicle, Fido runs up to you.
+"Thank you for saving me," he says. 
+As you take a couple of steps away from the car,
+it makes a strange sound. 
+It changes its shape. 
+You've seen it before, but only on TV. 
+"... Bumblebee???"
+
+
+
+-------- Game Over, You win --------
+"""
+
 CHOICES = """
     ----
+    A. Eat some tofu 
     B. Drive at a moderate speed
-    C. Speed ahead at ful throttle. 
+    C. Speed ahead at full throttle. 
     D. Stop for fuel at a refuelling station. 
        (No food available)
     E. Status Check
@@ -35,8 +58,8 @@ CHOICES = """
     ----
 """
 
-def intro():
-    for char in textwrap.dedent(INTRODUCTION):
+def type_text_output(text):
+    for char in textwrap.dedent(text):
         time.sleep(0.05)
         sys.stdout.write(char)
         sys.stdout.flush()
@@ -44,25 +67,34 @@ def intro():
     time.sleep(1)
 
 def main():
-    # intro()
+    type_text_output(INTRODUCTION)
 
     # CONSTANTS
     MAX_FUEL_LEVEL = 50
     MAX_TOFU_LEVEL = 3
+    MAX_DISTANCE_TRAVELED = 100
 
     # Variables
     done = False
 
-    km_traveled = 0             # 100 km traveled is the goal
+    km_traveled = 0
     agents_distance = -20.0
-    turns = 0                   # amount of turns taken
+    turns = 0
     tofu = MAX_TOFU_LEVEL
     fuel = MAX_FUEL_LEVEL
-    hunger = 0                  # hunger increases with number
+    hunger = 0
 
 
     while not done:
-        # TODO: Check if reached END GAME
+        # Check if reached END GAME
+        if km_traveled > MAX_DISTANCE_TRAVELED:
+            # WIN
+            # Print win scenario (typing way)
+            time.sleep(3.5)
+            type_text_output(WIN)
+
+            # Break from while loop
+            break
 
         # TODO: Give the player their choices
         print(CHOICES)
@@ -70,13 +102,29 @@ def main():
         # Handle user's input
         users_choice = input("What do you want to do? ").lower().strip("!,.? ")
 
-        if users_choice == "b":
+        if users_choice == "a":
+            # Eat
+            if tofu > 0:
+                tofu -= 1
+                hunger = 0
+                # Feedback to Player
+                print()
+                print("-------- Mmmmmmmm. Soybean goodness. ")
+                print("-------- Your hunger is sated. ")
+                print()
+            else:
+                # TODO: Shouldn't count as a turn
+                print()
+                print("-------- You have none left. ")
+                print()
+
+        elif users_choice == "b":
             # Drive moderately
             player_distance_now = random.randrange(7, 15)
             agents_distance_now = random.randrange(7, 15)
 
             # Burn fuel
-            fuel -= random.randrange(3, 7)
+            fuel -= random.randrange(2, 7)
 
             # Player distance traveled
             km_traveled += player_distance_now
@@ -130,10 +178,12 @@ def main():
         elif users_choice == "q":
             done = True
 
-        # Pause
-        time.sleep(1)
+        # Increase hunger
+        if users_choice not in ["a", "e"]:
+            hunger += random.randrange(5, 13)
 
-        # TODO: Change the environment based on choice and RNG
+        # Pause
+        time.sleep(2.2)
 
     # Outro
     print("Thanks for playing! Please play again. :)")
