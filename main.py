@@ -3,10 +3,10 @@
 # A text adventure game that is riveting
 # IGN gives it 4 stars out of 100.
 
+import random
 import sys
 import textwrap
 import time
-
 
 INTRODUCTION = """
 
@@ -26,6 +26,10 @@ REACH THE END BEFORE THE MAN GO GETCHU.
 
 CHOICES = """
     ----
+    B. Drive at a moderate speed
+    C. Speed ahead at ful throttle. 
+    D. Stop for fuel at a refuelling station. 
+       (No food available)
     E. Status Check
     Q. QUIT
     ----
@@ -40,14 +44,20 @@ def intro():
     time.sleep(1)
 
 def main():
-    intro()
+    # intro()
 
+    # CONSTANTS
+    MAX_FUEL_LEVEL = 50
+    MAX_TOFU_LEVEL = 3
+
+    # Variables
     done = False
+
     km_traveled = 0             # 100 km traveled is the goal
     agents_distance = -20.0
     turns = 0                   # amount of turns taken
-    tofu = 3                    # 3 is max tofu
-    fuel = 50                   # 50 is a full tank
+    tofu = MAX_TOFU_LEVEL
+    fuel = MAX_FUEL_LEVEL
     hunger = 0                  # hunger increases with number
 
 
@@ -60,7 +70,57 @@ def main():
         # Handle user's input
         users_choice = input("What do you want to do? ").lower().strip("!,.? ")
 
-        if users_choice == "e":
+        if users_choice == "b":
+            # Drive moderately
+            player_distance_now = random.randrange(7, 15)
+            agents_distance_now = random.randrange(7, 15)
+
+            # Burn fuel
+            fuel -= random.randrange(3, 7)
+
+            # Player distance traveled
+            km_traveled += player_distance_now
+
+            # Agent's distance traveled
+            agents_distance -= (player_distance_now - agents_distance_now)
+
+            # Give the user feedback
+            print()
+            print(f"-------- You traveled {player_distance_now} kms.")
+            print()
+        elif users_choice == "c":
+            # Drive Fast
+            player_distance_now = random.randrange(10, 16)
+            agents_distance_now = random.randrange(7, 15)
+
+            # Burn Fuel
+            fuel -= random.randrange(5, 11)
+
+            # Player distance traveled
+            km_traveled += player_distance_now
+
+            # Agent's distance traveled
+            #                   18                  -7
+            agents_distance -= (player_distance_now - agents_distance_now)
+            # Give the user feedback
+            print()
+            print(f"-------- You sped ahead {player_distance_now} kms!")
+            print()
+        elif users_choice == "d":
+            # Refuel
+            # Fill the fuel tank
+            fuel = MAX_FUEL_LEVEL
+
+            # Consider the agents coming closer
+            agents_distance += random.randrange(7, 15)
+
+            # Give the user feedback
+            print()
+            print("-------- You filled the fuel tank.")
+            print("-------- The agents got closer...")
+            print()
+
+        elif users_choice == "e":
             print(f"\t---Status Check---")
             print(f"\tkm traveled: {km_traveled} kms")
             print(f"\tFuel left: {fuel} Litres")
