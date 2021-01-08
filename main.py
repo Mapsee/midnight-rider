@@ -59,7 +59,49 @@ WE FAILED...
 
 
 
--------- Game Over, You win --------
+-------- Game Over, You Lose --------
+"""
+
+LOSE_AGENTS = """
+
+THE AGENTS HAVE CLOSED IN ON YOU.
+THERE ARE AT LEAST 20 CARS SURROUNDING YOU.
+THE LEAD CAR BUMPS YOUR PASSENGER SIDE. 
+YOU MANAGE TO CORRECT YOUR STEERING
+TO KEEP YOU FROM CRASHING. 
+
+YOU DIDN'T SEE THE AGENTS CAR BESIDE YOU. 
+THE DRIVER BUMPS YOUR CAR,
+AND THAT'S IT.
+
+YOU SPIN OUT OF CONTROL.
+THE CAR FLIPS OVER AT LEAST TWO TIMES.
+OR MORE... YOU LOST COUNT.
+
+SIRENS.
+
+"ARE THEY ALIVE?" SOMEONE ASKS.
+"DOESN'T MATTER. ALL WE WANTED WAS THE CAR." 
+YOU SEE A THE DOG WALKING OUT OF THE CAR.
+"WAS IT IN THE CAR THE WHOLE TIME?" YOU THINK TO YOURSELF. 
+
+THE DOG LOOKS UP AT THE OFFICERS.
+"YOU WILL NEVER STOP THE REVOLUTION."
+"DID THE DOG JUST TALK?" YOU THINK TO YOURSELF.
+YOU DRIFT OFF INTO UNCONSCIOUSNESS.
+
+
+
+-------- Game Over, You Lose --------
+"""
+
+LOSE_FUEL = """
+
+RAN OUT OF FUEL 
+F.
+
+
+-------- Game Over, You Lose --------
 """
 CHOICES = """
     ----
@@ -135,7 +177,18 @@ def main():
             break
 
         elif agents_distance >= 0:
+            # LOSE - AGENTS REACHED YOU
+            # Print losing agents scenario
+            time.sleep(2)
+            type_text_output(LOSE_AGENTS)
+            break
 
+        elif fuel <= 0:
+            # LOSE - RAN OUT OF FUEL
+            # Print losing fuel scenario
+            time.sleep(2)
+            type_text_output(LOSE_FUEL)
+            break
 
         # TODO: Give the player their choices
         print(CHOICES)
@@ -219,15 +272,17 @@ def main():
         elif users_choice == "q":
             done = True
 
-        # Increase hunger
+        # Upkeep - increase hunger and turn counter
         if users_choice not in ["a", "e"]:
             hunger += random.randrange(5, 13)
+            turns += 1
 
         # Pause
-        time.sleep(2.2)
+        time.sleep(1.7)
 
     # Outro
     print("Thanks for playing! Please play again. :)")
+    print(f"You finished the game in {turns} turns.")
 
 if __name__ == '__main__':
     main()
