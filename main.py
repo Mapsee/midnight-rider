@@ -46,6 +46,21 @@ You've seen it before, but only on TV.
 -------- Game Over, You win --------
 """
 
+LOSE_HUNGER = """
+
+YOUR STOMACH IS EMPTY. 
+WHO KNEW THAT WHAT THE DOCTOR SAID WAS TRUE,
+THAT HUMAN/ROBOT HYBRIDS WOULD NEED TOFU TO SUSTAIN THEMSELVES.
+YOUR ROBOT SYSTEMS START TO SHUT DOWN.
+YOUR HUMAN EYES CLOSE.
+THE LAST THING THAT YOU HEAR ARE SIRENS. 
+THEY GOTCHU. THEY GOT THE CAR.
+WE FAILED...
+
+
+
+-------- Game Over, You win --------
+"""
 CHOICES = """
     ----
     A. Eat some tofu 
@@ -87,6 +102,14 @@ def main():
 
 
     while not done:
+        # Check if reached END GAME
+        if km_traveled > MAX_DISTANCE_TRAVELED:
+            # WIN
+            # Print win scenario (typing way)
+            time.sleep(3.5)
+            type_text_output(WIN)
+            break
+
         # TODO: Random events
         # Fido
         if random.random() < TOFU_CHANCE:
@@ -97,25 +120,22 @@ def main():
             print("******** \"You're welcome!\" a voice says.")
             print("******** It's Fido.")
             print("******** He's using his tofu cooking skills. ")
+
         # Showing hunger
         if hunger > 35:
             print("******** Your stomach rumbles. You need to eat something soon. ********")
         elif hunger > 20:
             print("******** Your hunger is small but manageable.")
 
-        # Check if reached END GAME
-        if km_traveled > MAX_DISTANCE_TRAVELED:
-            # WIN
-            # Print win scenario (typing way)
-            time.sleep(3.5)
-            type_text_output(WIN)
-            break
-
         elif hunger > 45:
-
             # LOSE - TOO HUNGRY
             # Print losing hunger scenario
+            time.sleep(2)
+            type_text_output(LOSE_HUNGER)
             break
+
+        elif agents_distance >= 0:
+
 
         # TODO: Give the player their choices
         print(CHOICES)
